@@ -1,0 +1,9 @@
+
+import os
+
+# MYSQL
+DATABASE_HOST =  os.getenv('DATABASE_HOST','')
+DATABASE_NAME =  os.getenv('DATABASE_NAME', '')
+DATABASE_PORT =  os.getenv('DATABASE_PORT', 3306)
+DATABASE_USER =  os.getenv('MYSQL_ROOT_USER', '')
+DATABASE_PASSWORD =  os.getenv('MYSQL_ROOT_PASSWORD', '')
