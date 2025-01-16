@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: bookyland-k8s
+spec:
+  type: LoadBalancer
+  selector:
+    app: bookyland-k8s
+  ports:
+  - port: 8080
+    targetPort: 8000 # app port that going to be exposed to 'port'
