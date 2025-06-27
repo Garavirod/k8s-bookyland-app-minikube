@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: bookyland-deployment
+  labels:
+    app: bookyland-api
+spec:
+  replicas: 5
+  selector:
+    matchLabels:
+      app: bookyland-api
+  template: # PODS template
+    metadata:
+      labels:
+        app: bookyland-api
+    spec:
+      containers:
+        - name: bookyland-api
+          image: garavirod/bookyland-k8s:4.0.0
+          ports:
+          - containerPort: 8000

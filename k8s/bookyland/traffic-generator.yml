@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: traffic-generator
+  labels:
+    app: traffic-generator
+spec:
+  containers:
+    - name: traffic-generator
+      image: garavirod/traffic-generator:1.0.3
+      args:
+        - "10.244.0.118/api/hostname"
+        - "0.5"
+
+

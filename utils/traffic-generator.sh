@@ -18,8 +18,9 @@ echo "Starting traffic generator to $TARGET every $INTERVAL seconds..."
 while true; do
    REQUEST_TIME=$(date +%Y-%m-%dT%H:%M:%S)
    RESPONSE=$(curl -s "$TARGET")
+   HOSTNAME=$(echo "$RESPONSE" | jq -r '.hostname')
 
-   echo "[$REQUEST_TIME] Request to $TARGET: $RESPONSE"
+   echo "[$REQUEST_TIME] Request to $TARGET: response -> $HOSTNAME"
    sleep "$INTERVAL"
 
 done

@@ -2,7 +2,7 @@ FROM alpine:3.20
 
 WORKDIR /app
 
-RUN apk add --no-cache curl
+RUN apk add --no-cache curl jq
 
 COPY traffic-generator.sh traffic-generator.sh
 
