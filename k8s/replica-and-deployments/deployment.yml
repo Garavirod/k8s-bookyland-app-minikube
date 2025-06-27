@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment # Deployment is a higher-level abstraction that manages ReplicaSets and Pods
+metadata: # metadata for the Deployment
+  name: nginx-deployment
+  labels:
+    app: nginx
+spec:
+  replicas: 5 # Number of replicas to maintain
+  selector:
+    matchLabels:
+      app: nginx # Corresponds to the label in the pod template
+  template: # Pod template
+    metadata:
+      labels:
+        app: nginx # Must match the selector because the Deployment uses this label to manage the pods which was created in pod template
+    spec:
+      containers:
+      - name: nginx
+        image: nginx:1.27.1-alpine
+        ports:
+        - containerPort: 80

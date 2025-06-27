@@ -1,0 +1,14 @@
+apiVersion: networking.k8s.io/v1
+metadata:
+  name: bookyland-k8s-ingress
+spec:
+  defaultBackend:
+    service:
+    name: bookyland-k8s
+    port:
+      number: 8000
+  rules:
+  - host: bookyland.k8s.local
+    http:
+      paths:
+  
