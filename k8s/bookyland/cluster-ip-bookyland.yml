@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: bookyland-api-svc
+  labels:
+    app: bookyland-cluster-ip # Label for the service, can be used to select this service in other resources
+spec:
+  type: ClusterIP # This service will be accessible within the cluster
+  selector:
+    app: bookyland-api # This label should match the label in the pod template of the deployment (pods to expose)
+  ports:
+    - protocol: TCP
+      port: 80 # Port exposed by the service
+      targetPort: 8000 # Port on the pod to forward traffic to
