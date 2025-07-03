@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: bookyland-api-deployment
+  labels:
+    app: bookyland-api
+spec:
+  replicas: 3 # Number of pod replicas to run
+  selector:
+    matchLabels:
+      app: bookyland-api
+      environment: local 
+      tier: backend 
+    matchExpressions:
+      - key: managed
+        operator: Exists
+  template:
+    metadata:
+      labels:
+        app: bookyland-api
+        environment: local
+        tier: backend
+        managed: "deployment"
+    spec:
+      containers:
+        - name: bookyland-api
+          image: garavirod/bookyland-k8s:4.0.0
+          ports:
+            - containerPort: 8000

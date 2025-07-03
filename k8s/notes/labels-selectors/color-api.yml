@@ -1,0 +1,29 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: bookyland-backend
+  labels:
+    app: bookyland-api
+    environment: local
+    tier: backend
+spec:
+  containers:
+    - name: boolyland-backend
+      image: garavirod/bookyland-k8s:4.0.0
+      ports:
+        - containerPort: 8000
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: bookyland-frontend
+  labels:
+    app: bookyland-api
+    environment: local
+    tier: frontend
+spec:
+  containers:
+    - name: color-nginx
+      image: nginx:1.27.0
+      ports:
+        - containerPort: 80
