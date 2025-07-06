@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: color-api
+  namespace: dev # Specify the namespace where the Pod will be created
+  labels:
+    app: color-api
+spec:
+  containers:
+    - name: bookyland
+      image: garavirod/bookyland-k8s:4.0.0
+      ports:
+        - containerPort: 8000
