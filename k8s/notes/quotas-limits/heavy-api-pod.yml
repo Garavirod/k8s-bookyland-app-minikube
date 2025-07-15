@@ -1,0 +1,22 @@
+# This Pod is designed to exceed the resource limits set for the 'dev' namespace.
+# It will not be scheduled due to the ResourceQuota defined in dev-ns.yml.
+apiVersion: v1
+kind: Pod
+metadata:
+  name: heavy-api-pod
+  namespace: dev
+  labels:
+    app: heavy-api
+spec:
+  containers:
+    - name: heavy-api
+      image: garavirod/bookyland-k8s:4.0.0
+      resources:
+        requests:
+          cpu: "1" # This pod exceeds the dev namespace limits therefore it will not be scheduled
+          memory: "1Gi" # This pod exceeds the dev namespace limits therefore it will not be scheduled
+        limits:
+          cpu: "2" # This pod exceeds the dev namespace limits therefore it will not be scheduled
+          memory: "2Gi" # This pod exceeds the dev namespace limits therefore it will not be scheduled
+      ports:
+        - containerPort: 8000

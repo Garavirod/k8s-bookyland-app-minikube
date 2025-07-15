@@ -1,0 +1,20 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: color-api-pod
+  namespace: dev
+  labels:
+    app: color-api
+spec:
+  containers:
+    - name: color-api
+      image: garavirod/bookyland-k8s:4.0.0
+      resources:
+        requests:
+          cpu: "200m" # This 1/5 of a CPU core. 1000m is equivalent to 1 CPU core.
+          memory: "256Mi"  # This is 1/4 of a GiB.
+        limits:
+          cpu: "500m" # This is 1/2 of a CPU core.
+          memory: "512Mi" # This is 1/2 of a GiB.
+      ports:
+        - containerPort: 8000
