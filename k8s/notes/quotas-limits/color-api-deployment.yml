@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: color-api-deployment
+  namespace: dev
+  labels:
+    app: color-api
+spec:
+  replicas: 4
+  selector:
+    matchLabels:
+      app: color-api # This selector matches the labels of the pods managed by this deployment.
+  template: # This is the pod template used by the deployment to create pods in case of scaling or updates or rollouts.
+    metadata:
+      labels:
+        app: color-api
+    spec: 
+      containers:
+        - name: color-api
+          image: garavirod/bookyland-k8s:3.0.0
+          resources:
+            requests:
+              cpu: "200m" # 4 pods with 200m CPU each will use 800m CPU in total, which is within the dev namespace limits.
+              memory: "256Mi"  # 4 pods with 256Mi memory each will use 1Gi memory in total, which is within the dev namespace limits.
+            limits:
+              cpu: "500m" # 4 pods with 500m CPU each will use 2Gi CPU in total, which is within the dev namespace limits.
+              memory: "512Mi" # 4 pods with 512Mi memory each will use 2Gi memory in total, which is within the dev namespace limits.
+          ports:
+            - containerPort: 8000
