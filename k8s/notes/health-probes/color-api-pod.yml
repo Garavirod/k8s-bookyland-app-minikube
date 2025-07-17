@@ -7,19 +7,21 @@ metadata:
 spec:
   containers:
     - name: color-api
-      image: garavirod/bookyland-k8s:4.2.0
+      image: garavirod/bookyland-k8s:4.2.1
       ports:
         - containerPort: 8000
       env:
         - name: DELAY_STARTUP
-          value: "false"
+          value: 'false'
+        - name: FAIL_LIVENESS
+          value: 'true'
       resources:
         limits:
           cpu: "500m"
           memory: "512Mi"
-      startupProbe:
+      livenessProbe:
         httpGet: 
           path: /health
           port: 8000
-        failureThreshold: 2 # Number of failures before giving up
-        periodSeconds: 3 # How often to perform the probe
+        failureThreshold: 3 # Number of failures before giving up
+        periodSeconds: 10 # How often to perform the probe
