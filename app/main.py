@@ -11,7 +11,7 @@ import time
 # For testing purposes, K8s Probes
 delay_startup = DELAY_STARTUP == 'true'
 fail_liveness = FAIL_LIVENESS == 'true'
-fail_readiness = random.random() < 0.5 if FAIL_READINESS == False else False
+fail_readiness = random.random() < 0.5 if FAIL_READINESS == 'false' else False
 
 print(f"Delay startup: {delay_startup}")
 print(f"Fail liveness: {fail_liveness}")    
@@ -23,18 +23,22 @@ app = FastAPI()
 # Serve static content
 app.mount("/static",StaticFiles(directory='static'), name='static')
 
-
 # Hostname endpoint
 @app.get("/api/hostname")
 async def get_hostname():
     hostname = socket.gethostname()
     return {"hostname": hostname}
 
+# Readiness and liveness endpoints
 @app.get("/ready")
 async def readiness_check():
     if fail_readiness:
         raise HTTPException(status_code=503, detail="Service is not ready")
     return {"status": "ready", "message": "Service is ready"}
+
+@app.get("/up")
+async def readiness_check():
+    return {"status": "Up", "message": "Service is Up"}
 
 @app.get("/health")
 async def liveness_check():
