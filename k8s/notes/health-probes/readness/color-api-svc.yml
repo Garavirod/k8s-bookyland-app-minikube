@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: color-api-svc
+  labels:
+    app: color-api
+spec:
+  selector:
+    app: color-api # This label must match the pod deployment's labels
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 8000

@@ -11,7 +11,7 @@ import time
 # For testing purposes, K8s Probes
 delay_startup = DELAY_STARTUP == 'true'
 fail_liveness = FAIL_LIVENESS == 'true'
-fail_readiness = random.random() < 0.5 if FAIL_READINESS == 'false' else False
+fail_readiness = random.random() < 0.5 if FAIL_READINESS == 'true' else False
 
 print(f"Delay startup: {delay_startup}")
 print(f"Fail liveness: {fail_liveness}")    

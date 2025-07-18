@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: traffic-generator
+  labels:
+    app: traffic-generator
+spec:
+  containers:
+    - name: traffic-generator
+      image: garavirod/traffic-generator:1.0.5
+      args:
+        - "color-api-svc/api/hostname" 
+        - "0.5"
+      resources:
+        limits:
+          cpu: "200m"
+          memory: "512Mi"

@@ -1,0 +1,50 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: color-api-deployment
+  labels:
+    app: color-api
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: color-api # This label must match the pod template's labels
+  template:
+    metadata:
+      labels:
+        app: color-api
+    spec:
+      containers:
+        - name: color-api
+          image: garavirod/bookyland-k8s:4.2.2
+          ports:
+            - containerPort: 8000
+          resources:
+            limits:
+              cpu: "300m"
+              memory: "512Mi"
+          env:
+            - name: DELAY_STARTUP
+              value: 'false'
+            - name: FAIL_LIVENESS
+              value: 'false'
+            - name: FAIL_READINESS
+              value: 'true'
+          startupProbe:
+            httpGet: 
+              path: /up
+              port: 8000
+            failureThreshold: 2 # Number of failures before giving up
+            periodSeconds: 3 # How often to perform the probe
+          livenessProbe:
+            httpGet: 
+              path: /health
+              port: 8000
+            failureThreshold: 3 # Number of failures before giving up
+            periodSeconds: 10 # How often to perform the probe
+          readinessProbe:
+            httpGet: 
+              path: /ready
+              port: 8000
+            failureThreshold: 2 # Number of failures before giving up
+            periodSeconds: 5 # How often to perform the probe
