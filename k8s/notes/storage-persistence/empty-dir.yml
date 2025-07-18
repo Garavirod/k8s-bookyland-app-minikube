@@ -1,0 +1,25 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: empty-dir-demo-pod
+  labels:
+    app: empty-dir-demo
+spec:
+  containers:
+    - name: empty-dir-demo
+      image: busybox:1.36.1
+      command: ["sh", "-c", "sleep 3600"]  # Keep the container running for testing
+      resources:
+        limits:
+          memory: "512Mi"
+          cpu: "500m"
+      # Point the volume to use and set where (folder into container) to mount it
+      volumeMounts:
+        - mountPath: /usr/share/temp  # Path inside the container where the volume will be mounted
+          name: temporary-storage  # Name of the volume to mount
+          # subPath: data  # Optional: specify a sub-path within the volume
+  volumes:
+    - name: temporary-storage
+      emptyDir: {}
+        # medium: Memory  # Use memory for storage for high speed and performance, keep in mind this also consumes the resources defined in the pod
+        # sizeLimit: "1Gi"  # Limit the size to 1 GiB
