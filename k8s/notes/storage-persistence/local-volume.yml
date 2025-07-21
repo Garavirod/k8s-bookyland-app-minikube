@@ -1,0 +1,83 @@
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: local-volume
+spec:
+  capacity:
+    storage: 1Gi
+  volumeMode: Filesystem
+  accessModes:
+    - ReadWriteOnce # Single node access, this is basically a directory inside the node
+  persistentVolumeReclaimPolicy: Retain
+  storageClassName: local-storage
+  local:
+    path: /mnt/disks/local1 # Path on the host machine where the volume is located. Tis path already exists on the host machine.  
+  nodeAffinity:
+    required: 
+      nodeSelectorTerms:
+        - matchExpressions:
+            - key: kubernetes.io/hostname
+              operator: In
+              values: ["minikube"] # This ensures that the volume is only accessible on the minikube node
+---
+# Definition below means Give the volume that follow the criteria defined below
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: local-pvc
+spec:
+  resources:
+    requests:
+      storage: 1Gi
+  volumeMode: Filesystem # This means that the volume will be used as a filesystem and needs to match the volume mode of the PersistentVolume
+  accessModes:
+    - ReadWriteOnce # This needs to match the access mode of the PersistentVolume
+  storageClassName: local-storage # This needs to match the storage class name of the PersistentVolume
+---
+# POD 1
+apiVersion: v1
+kind: Pod
+metadata:
+  name: local-volume-pod
+  labels:
+    app: local-volume-pod
+spec:
+  containers:
+    - name: local-volume-container
+      image: busybox:1.36.1
+      command: ["sh", "-c", "sleep 3600"]
+      resources:
+        limits:
+          memory: "128Mi"
+          cpu: "500m"
+      volumeMounts:
+        - name: local-volume # This is the name of the volume defined in the PersistentVolumeClaim
+          mountPath: /mnt/local1 # This is the path inside the container where the volume will be mounted
+  volumes:
+    - name: local-volume
+      persistentVolumeClaim:
+        claimName: local-pvc # This needs to match the name of the PersistentVolumeClaim  
+---
+# POD 2
+apiVersion: v1
+kind: Pod
+metadata:
+  name: local-volume-pod2
+  labels:
+    app: local-volume-pod2
+spec:
+  containers:
+    - name: local-volume-container
+      image: busybox:1.36.1
+      command: ["sh", "-c", "sleep 3600"]
+      resources:
+        limits:
+          memory: "128Mi"
+          cpu: "500m"
+      volumeMounts:
+        - name: local-volume # This is the name of the volume defined in the PersistentVolumeClaim
+          mountPath: /mnt/local2 # This is the path inside the container where the volume will be mounted
+  volumes:
+    - name: local-volume
+      persistentVolumeClaim:
+        claimName: local-pvc # This needs to match the name of the PersistentVolumeClaim  
