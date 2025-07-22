@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: dynamic-example-pvc
+spec:
+  resources:
+    requests:
+      storage: 1Gi
+  volumeMode: Filesystem # This means that the volume will be used as a filesystem and needs to match the volume mode of the PersistentVolume
+  accessModes:
+    - ReadWriteOnce # This needs to match the access mode of the PersistentVolume
+  storageClassName: standard # This needs to match the storage class name of the PersistentVolume
