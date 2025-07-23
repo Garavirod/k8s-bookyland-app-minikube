@@ -24,9 +24,11 @@ spec:
           volumeMounts:
             - name: local-volume # This is the name of the volume defined in the PersistentVolumeClaim
               mountPath: /mnt/local # This is the path inside the container where the volume will be mounted
+            # - name: local-volume2 # This is the name of the volume defined in the PersistentVolumeClaim
+            #   mountPath: /mnt/local2 # This is the path inside the container where the volume will be mounted
   volumeClaimTemplates: # This is used to create the volumes for the pods automatically
     - metadata:
-        name: local-storage
+        name: local-volume # This is the name of the volume that will be created for the pods
       spec:
         accessModes:
           - ReadWriteOnce
@@ -34,3 +36,12 @@ spec:
         resources:
           requests:
             storage: 128Mi
+    # - metadata:
+    #     name: local-volume2 # This is the name of the volume that will be created for the pods
+    #   spec:
+    #     accessModes:
+    #       - ReadWriteOnce
+    #     storageClassName: local-storage
+    #     resources:
+    #       requests:
+    #         storage: 128Mi
