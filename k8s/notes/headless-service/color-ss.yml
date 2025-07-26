@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: color-ss
+spec:
+  selector:
+    matchLabels:
+      app: color-api
+  serviceName: pvc-color-api-headless-svc
+  replicas: 3
+  template:
+    metadata:
+      labels:
+        app: color-api
+    spec:
+      containers:
+        - name: color-api
+          image: garavirod/bookyland-k8s:4.2.2
+          ports:
+            - containerPort: 8000
+              name: web
+          volumeMounts:
+            - name: dummy-data
+              mountPath: /tmp/data
+  volumeClaimTemplates:
+    - metadata:
+        name: dummy-data
+      spec:
+        accessModes: ["ReadWriteOnce"]
+        storageClassName: standard
+        resources:
+          requests:
+            storage: 1Gi
+            
+      
