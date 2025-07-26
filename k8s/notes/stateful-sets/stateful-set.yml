@@ -32,7 +32,7 @@ spec:
       spec:
         accessModes:
           - ReadWriteOnce
-        storageClassName: local-storage
+        storageClassName: standard # # local-storage for static volume (needs to be created manually into the cluster)
         resources:
           requests:
             storage: 128Mi
