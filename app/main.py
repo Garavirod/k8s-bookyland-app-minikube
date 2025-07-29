@@ -3,7 +3,7 @@ from fastapi.staticfiles import StaticFiles
 from api import books, genres, authors
 from fastapi.responses import HTMLResponse
 from pathlib import Path
-from environment import ( FAIL_LIVENESS, FAIL_READINESS, DELAY_STARTUP)
+from environment import ( FAIL_LIVENESS, FAIL_READINESS, DELAY_STARTUP, CONFIG_MAP_FILE_PATH, CONFIG_MAP_MESSAGE)
 import socket
 import random
 import time
@@ -17,8 +17,21 @@ print(f"Delay startup: {delay_startup}")
 print(f"Fail liveness: {fail_liveness}")    
 print(f"Fail readiness: {fail_readiness}")
 
+def get_config_map():
+    config_map_message = CONFIG_MAP_MESSAGE
+    if CONFIG_MAP_FILE_PATH:
+        try:
+            with open(CONFIG_MAP_FILE_PATH, 'r') as file:
+                return file.read()
+        except Exception as e:
+            print(f"Error reading config map file: {e}")
+            return None
+    return config_map_message or "No config map message"
+
 
 app = FastAPI()
+config_map_message = get_config_map()
+print(f"Config map message: {config_map_message}")
 
 # Serve static content
 app.mount("/static",StaticFiles(directory='static'), name='static')
