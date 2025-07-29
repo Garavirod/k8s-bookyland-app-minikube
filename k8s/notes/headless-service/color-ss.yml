@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
         - name: color-api
-          image: garavirod/bookyland-k8s:4.2.2
+          image: garavirod/bookyland-k8s:4.2.1
           ports:
             - containerPort: 8000
               name: web
