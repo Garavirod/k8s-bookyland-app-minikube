@@ -1,0 +1,70 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: mongodb-stateful-set
+  labels:
+    app: mongodb
+spec:
+  serviceName: mongodb-svc
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mongodb
+  template:
+    metadata:
+      labels:
+        app: mongodb
+    spec: 
+      containers:
+        - name: mongodb
+          image: mongo:8.0.0
+          ports: 
+            - containerPort: 27017
+          # This is the environment variables that will be used to initialize the database
+          env:
+            # Root Credentials
+            - name: MONGO_INITDB_ROOT_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: mongodb-root-cred
+                  key: username
+            - name: MONGO_INITDB_ROOT_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: mongodb-root-cred
+                  key: password
+            # Bookyland Credentials
+            - name: DB_NAME
+              value: bookyland
+            - name: DB_USER
+              valueFrom:
+                secretKeyRef:
+                  name: mongodb-bookyland-cred
+                  key: username
+            - name: DB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: mongodb-bookyland-cred
+                  key: password
+          # Volume mounts are used to mount the persistent volume claim for the mongodb data and the config map that contains the script to initialize the database
+          volumeMounts:           
+            - mountPath: /data/db
+              name: mongodb-data-pvc
+            - mountPath: /docker-entrypoint-initdb.d
+              name: mongodb-init-config
+      # Volume is used to mount the config map that contains the script to initialize the database
+      volumes:
+        - name: mongodb-init-config
+          configMap: 
+            name: mongodb-init-bookyland-db
+  # Volume claim template is used to create a persistent volume claim for the mongodb data
+  volumeClaimTemplates:
+    - metadata:
+        name: mongodb-data-pvc
+      spec:
+        accessModes: ['ReadWriteOnce']
+        storageClassName: standard
+        resources:
+          requests:
+            storage: 1Gi
+
