@@ -1,0 +1,32 @@
+apiVersion: v1
+kind: Pod
+metadata: 
+  name: color-api-volume
+  labels:
+    app: color-api-volume
+spec: 
+  containers:
+    - name: color-api-volume-container
+      image: garavirod/bookyland-k8s:4.3.4
+      ports:
+        - containerPort: 8000
+      env: 
+        - name: CONFIG_MAP_FILE_PATH
+          valueFrom:
+            configMapKeyRef:
+              name: color-volume-config-map
+              key: CONFIG_MAP_FILE_PATH
+      volumeMounts:
+        - name: config-map-volume
+          # Config map will mount each of the key value pairs as different files, 
+          # with the key being the name of the file and the value here being the content of the file.
+          mountPath: /mnt/config  # This is the path where the config map will be mounted
+          readOnly: true
+      resources:
+        limits:
+          memory: 128Mi
+          cpu: "500m"
+  volumes:
+    - name: config-map-volume
+      configMap:
+        name: color-volume-config-map

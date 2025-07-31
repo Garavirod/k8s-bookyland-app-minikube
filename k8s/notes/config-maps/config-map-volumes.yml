@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: color-volume-config-map
+data:
+  # When these keys are retrieved from the config map via volumeMounts, 
+  # all the key names will be files in the mounted path with values being the content of the files.
+  CONFIG_MAP_FILE_PATH: /mnt/config/color.txt
+  color.txt: "red"
+  hello-from-green.py: |
+    print("Hello from green config map")
+
+
+
+
+
+
