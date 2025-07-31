@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: color-config-map
+data:
+  CONFIG_MAP_MESSAGE: "This is a test config map message"
+  # CONFIG_MAP_FILE_PATH: "k8s/notes/config-maps/config-map.yml"
+  # MULTI_LINE_MESSAGE: |
+  #   This is a multi line message
+  #   This is a multi line message
+  # script.py: |
+  #   print("This is a test config map message")
+  #   print("This is a test config map message")
+
+
+
+

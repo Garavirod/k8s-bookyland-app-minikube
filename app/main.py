@@ -30,8 +30,6 @@ def get_config_map():
 
 
 app = FastAPI()
-config_map_message = get_config_map()
-print(f"Config map message: {config_map_message}")
 
 # Serve static content
 app.mount("/static",StaticFiles(directory='static'), name='static')
@@ -40,7 +38,8 @@ app.mount("/static",StaticFiles(directory='static'), name='static')
 @app.get("/api/hostname")
 async def get_hostname():
     hostname = socket.gethostname()
-    return {"hostname": hostname}
+    config_map_message = get_config_map()
+    return {"hostname": hostname, "config_map_message": config_map_message}
 
 # Readiness and liveness endpoints
 @app.get("/ready")

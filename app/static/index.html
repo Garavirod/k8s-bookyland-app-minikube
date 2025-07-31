@@ -11,13 +11,14 @@
     <h1 class="text-center">Welcome to Bookyland API V 4.0.0 </h1>
     <p class="text-center">This is the index page of Bookyland application.</p> <br><br>
     <p class="text-center">Hostname: <span id="hostname"></span></p>
-
+    <p class="text-center">Config Map Message: <span id="config-map-message"></span></p>
     <script>
         // Fetch the hostname from the FastAPI endpoint
         fetch('/api/hostname')
             .then(response => response.json())
             .then(data => {
                 document.getElementById('hostname').innerText = data.hostname;
+                document.getElementById('config-map-message').innerText = data.config_map_message;
             })
             .catch(error => console.error('Error fetching hostname:', error));
     </script>

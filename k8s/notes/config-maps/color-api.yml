@@ -1,0 +1,25 @@
+apiVersion: v1
+kind: Pod
+metadata: 
+  name: color-api
+  labels:
+    app: color-api
+spec: 
+  containers:
+    - name: color-api-container
+      image: garavirod/bookyland-k8s:4.3.4
+      ports:
+        - containerPort: 8000
+      # envFrom: This is anther option to pass the config map to the container but it is not recommended
+      #   - configMapRef:
+      #       name: color-config-map # this is the name of the config map
+      env: 
+        - name: CONFIG_MAP_MESSAGE
+          valueFrom:
+            configMapKeyRef:
+              name: color-config-map
+              key: CONFIG_MAP_MESSAGE
+      resources:
+        limits:
+          memory: 128Mi
+          cpu: "500m"
