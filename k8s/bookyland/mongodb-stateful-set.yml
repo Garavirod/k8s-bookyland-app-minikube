@@ -55,7 +55,7 @@ spec:
       # Volume is used to mount the config map that contains the script to initialize the database
       volumes:
         - name: mongodb-init-config
-          configMap: 
+          configMap:
             name: mongodb-init-bookyland-db
   # Volume claim template is used to create a persistent volume claim for the mongodb data
   volumeClaimTemplates:
@@ -66,5 +66,5 @@ spec:
         storageClassName: standard
         resources:
           requests:
-            storage: 1Gi
+            storage: 10Gi
 
