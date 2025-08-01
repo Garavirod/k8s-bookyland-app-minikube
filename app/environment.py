@@ -1,12 +1,12 @@
 
 import os
 
-# MYSQL
-DATABASE_HOST =  os.getenv('DATABASE_HOST','')
-DATABASE_NAME =  os.getenv('DATABASE_NAME', '')
-DATABASE_PORT =  os.getenv('DATABASE_PORT', 3306)
-DATABASE_USER =  os.getenv('MYSQL_ROOT_USER', '')
-DATABASE_PASSWORD =  os.getenv('MYSQL_ROOT_PASSWORD', '')
+# MONGODB
+DATABASE_HOST = os.getenv('DATABASE_HOST', 'localhost')
+DATABASE_NAME = os.getenv('DATABASE_NAME', 'bookyland')
+DATABASE_PORT = int(os.getenv('DATABASE_PORT', 27017))
+DATABASE_USER = os.getenv('MONGODB_USER', '')
+DATABASE_PASSWORD = os.getenv('MONGODB_PASSWORD', '')
 
 # TEST FAILS
 DELAY_STARTUP = os.getenv('DELAY_STARTUP', False)

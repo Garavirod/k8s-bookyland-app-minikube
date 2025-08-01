@@ -1,34 +1,49 @@
-from pydantic import BaseModel
-from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy import Column, Integer, String, ForeignKey, VARCHAR
-from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy.orm import relationship
+from pydantic import BaseModel, Field
+from typing import Optional
+from bson import ObjectId
 
+class PyObjectId(ObjectId):
+    @classmethod
+    def __get_validators__(cls):
+        yield cls.validate
 
-Base = declarative_base()
+    @classmethod
+    def validate(cls, v):
+        if not ObjectId.is_valid(v):
+            raise ValueError("Invalid ObjectId")
+        return ObjectId(v)
 
+    @classmethod
+    def __modify_schema__(cls, field_schema):
+        field_schema.update(type="string")
 
-class Author(Base):
-    __tablename__ = "authors"
-    id = Column(Integer, primary_key=True, index=True, autoincrement=True)
-    name = Column(String(100))
-    last_name = Column(String(100))
+class Author(BaseModel):
+    id: Optional[PyObjectId] = Field(default_factory=PyObjectId, alias="_id")
+    name: str
+    last_name: str
 
+    class Config:
+        allow_population_by_field_name = True
+        arbitrary_types_allowed = True
+        json_encoders = {ObjectId: str}
 
-class Genre(Base):
-    __tablename__ = "genres"
-    id = Column(Integer, primary_key=True, index=True, autoincrement=True)
-    name = Column(String(100))
+class Genre(BaseModel):
+    id: Optional[PyObjectId] = Field(default_factory=PyObjectId, alias="_id")
+    name: str
 
+    class Config:
+        allow_population_by_field_name = True
+        arbitrary_types_allowed = True
+        json_encoders = {ObjectId: str}
 
-class Book(Base):
-    __tablename__ = "books"
-    id = Column(Integer, primary_key=True, index=True, autoincrement=True)
-    title = Column(String(100))
-    isb = Column(String(100))
-    author_id = Column(Integer, ForeignKey(
-        'authors.id', ondelete='CASCADE', onupdate='CASCADE'))
-    genre_id = Column(Integer, ForeignKey(
-        'genres.id', ondelete='CASCADE', onupdate='CASCADE'))
-    author = relationship("Author", backref='books')
-    genre = relationship("Genre", backref="books")
+class Book(BaseModel):
+    id: Optional[PyObjectId] = Field(default_factory=PyObjectId, alias="_id")
+    title: str
+    isbn: str
+    author_id: PyObjectId
+    genre_id: PyObjectId
+
+    class Config:
+        allow_population_by_field_name = True
+        arbitrary_types_allowed = True
+        json_encoders = {ObjectId: str}

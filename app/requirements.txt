@@ -3,5 +3,3 @@ uvicorn
 pymongo
 motor==2.5.1
 configparser
-# mysql-connector-python
-# sqlalchemy
