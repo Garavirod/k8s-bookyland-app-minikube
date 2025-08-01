@@ -1,5 +1,7 @@
 fastapi
 uvicorn
-mysql-connector-python
+pymongo
+motor==2.5.1
 configparser
-sqlalchemy
+# mysql-connector-python
+# sqlalchemy
