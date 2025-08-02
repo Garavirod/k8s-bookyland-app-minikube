@@ -5,7 +5,7 @@
    labels:
      app: bookyland-api
  spec:
-   replicas: 3
+   replicas: 1
    selector:
      matchLabels:
        app: bookyland-api
@@ -16,7 +16,7 @@
      spec:
        containers:
          - name: bookyland-api
-           image: garavirod/bookylsnf-k8s:5.0.1
+           image: garavirod/bookyland-k8s:5.0.1
            ports:
              - containerPort: 8000
            env:
