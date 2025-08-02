@@ -9,7 +9,7 @@ async def connect_to_mongo():
     global client, database
     # MongoDB connection string
     if DATABASE_USER and DATABASE_PASSWORD:
-        mongo_url = f"mongodb://{DATABASE_USER}:{DATABASE_PASSWORD}@{DATABASE_HOST}:{DATABASE_PORT}"
+        mongo_url = f"mongodb://{DATABASE_USER}:{DATABASE_PASSWORD}@{DATABASE_HOST}:{DATABASE_PORT}/{DATABASE_NAME}"
     else:
         mongo_url = f"mongodb://{DATABASE_HOST}:{DATABASE_PORT}"
     
