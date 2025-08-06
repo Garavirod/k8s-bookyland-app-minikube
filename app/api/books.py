@@ -1,6 +1,5 @@
 from pydantic import BaseModel
-from fastapi import Depends, HTTPException
-from models.books import Book, PyObjectId
+from fastapi import HTTPException
 from fastapi import APIRouter
 from database.db import get_database
 from bson import ObjectId
