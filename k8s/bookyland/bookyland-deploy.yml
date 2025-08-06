@@ -21,7 +21,7 @@
              - containerPort: 8000
            env:
             - name: DATABASE_HOST
-              value: mongodb-statefulset-0.mongodb-svc.default.svc.cluster.local
+              value: mongodb-stateful-set-0.mongodb-svc.default.svc.cluster.local
             - name: DATABASE_NAME
               value: bookyland
             - name: DATABASE_PORT

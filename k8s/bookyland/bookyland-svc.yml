@@ -5,6 +5,7 @@
    labels:
      app: bookyland-api
  spec:
+   type: NodePort
    selector:
      app: bookyland-api
    ports:
