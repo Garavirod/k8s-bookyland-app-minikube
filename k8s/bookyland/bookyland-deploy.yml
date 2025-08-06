@@ -16,7 +16,7 @@
      spec:
        containers:
          - name: bookyland-api
-           image: garavirod/bookyland-k8s:5.0.1
+           image: garavirod/bookyland-k8s:5.0.2
            ports:
              - containerPort: 8000
            env:
