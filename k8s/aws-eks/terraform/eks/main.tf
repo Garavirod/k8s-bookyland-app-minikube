@@ -61,6 +61,9 @@ module "eks" {
             // Enables PersistentVolumeClaims (PVCs)
             resolve_conflicts = "OVERWRITE"
         }
+        aws-load-balancer-controller = {
+          resolve_conflicts = "OVERWRITE"
+        }
     }
 
     eks_managed_node_groups = {
