@@ -40,27 +40,37 @@ module "eks" {
 
     cluster_addons = {
         kube-proxy = {
-            resolve_conflicts = "OVERWRITE"
+            resolve_conflicts = "OVERWRITE" // useful for PODs communication each other
         }
         coredns = {
-            resolve_conflicts = "OVERWRITE"
+            // Resolves service names to IP addresses, This is an internal DNS resolution
+            // Pods needs to find other services by name
+            resolve_conflicts = "OVERWRITE" 
         }
         vpc-cni = {
-            resolve_conflicts = "OVERWRITE"
+            // Handles security groups and NACLs
+            // This manage Container Network Interface (CNI)
+            // Native VPC networking for PODS
+            resolve_conflicts = "OVERWRITE" 
         }
         csi = {
+            // Manages volume provisioning and attachment
+            // Enables persistent storage for pods
+            // Storage driver for AWS EBS volumes
+            // Pods need persistent storage (databases, file storage)
+            // Enables PersistentVolumeClaims (PVCs)
             resolve_conflicts = "OVERWRITE"
         }
     }
 
     eks_managed_node_groups = {
-        node-group = {
+        green = {
             desired_capacity = 1
             max_capacity = 2
             min_capacity = 1
-            instance_types = ["t3.medium"]
+            instance_types = ["t2.medium"]
             tags = {
-                Name = "${var.project_name}-eks-node"
+                Name = "${var.project_name}-eks-green-node-group"
             }
         }
     }
