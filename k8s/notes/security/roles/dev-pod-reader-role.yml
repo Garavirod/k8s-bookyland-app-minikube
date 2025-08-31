@@ -1,0 +1,10 @@
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  namespace: dev
+  name: pod-reader-role
+rules:
+  - apiGroups: [''] # This means it will take api groups by default leaving 'v1' only apiVersion: v1 (useful for creating pods, configMaps etc..)
+    resources: ['pods']
+    verbs: ['get','list']
+      
