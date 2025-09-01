@@ -4,6 +4,6 @@ metadata:
   name: pod-admin-cluster-role
 rules:
   - apiGroups: [''] # This means it will take api groups (core api group) leaving 'v1' only apiVersion: v1 (useful for creating pods, configMaps etc..)
-    resources: ['pods','pods/logs']
+    resources: ['pods','pods/log','pods/exec','pods/attach']
     verbs: ['*'] # This means all actions are allowed
       
