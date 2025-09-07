@@ -11,4 +11,7 @@ subjects:
   - kind: User
     name: bob
     apiGroup: rbac.authorization.k8s.io
+  - kind: ServiceAccount
+    name: pod-inspector # from pods/pods.yml file pod-inspector service account name
+    namespace: dev
       
